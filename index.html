@@ -1,11 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <title>Cocktail Challenge — Async Web App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-    
+  <header class="app-header">
+    <h1>🍸 Cocktail Challenge</h1>
+    <p class="muted">Search by ingredient, view recipe details, and save favorites.</p>
+  </header>
+
+  <main class="container">
+    <!-- Search & Status -->
+    <section class="card glass">
+      <form id="search-form" novalidate>
+        <label for="ingredient">Search by ingredient</label>
+        <div class="row">
+          <input id="ingredient" name="ingredient" type="text" placeholder="e.g., vodka, rum, lime" required minlength="2" />
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <div id="status" class="status"></div>
+    </section>
+
+    <section class="layout">
+      <!-- Gallery -->
+      <section class="panel">
+        <h2>Results</h2>
+        <div class="toolbar">
+          <div class="pager">
+            <button id="prev" type="button">⟵ Prev</button>
+            <span id="page-label" class="muted"></span>
+            <button id="next" type="button">Next ⟶</button>
+          </div>
+        </div>
+        <div id="gallery" class="grid"></div>
+      </section>
+
+      <!-- Details -->
+      <aside class="panel">
+        <h2>Details</h2>
+        <div id="details" class="card"></div>
+      </aside>
+    </section>
+
+    <!-- Favorites -->
+    <section class="card">
+      <div class="fav-header">
+        <h2>⭐ Favorites</h2>
+        <button id="clear-favs" type="button" class="danger">Clear All (local)</button>
+      </div>
+      <div id="favorites" class="grid"></div>
+    </section>
+  </main>
+
+  <!-- Card Templates -->
+  <template id="card-tpl">
+    <article class="cocktail-card">
+      <img class="thumb" alt="Cocktail image" />
+      <h3 class="title"></h3>
+      <div class="actions">
+        <button class="btn detail">Details</button>
+        <button class="btn fav">☆ Favorite</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="fav-tpl">
+    <article class="cocktail-card small">
+      <img class="thumb" alt="Fav image" />
+      <h4 class="title"></h4>
+      <div class="actions">
+        <button class="btn danger remove">Remove</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="details-tpl">
+    <div class="detail-wrapper">
+      <img class="hero" alt="Cocktail hero" />
+      <h3 class="name"></h3>
+      <p class="muted meta"></p>
+      <h4>Ingredients</h4>
+      <ul class="ing"></ul>
+      <h4>Instructions</h4>
+      <p class="instr"></p>
+    </div>
+  </template>
+
+  <footer class="app-footer">
+    <small>Built with async/await, fetch + axios, modules, and DOM events.</small>
+  </footer>
+
+  <script type="module" src="./script.js"></script>
 </body>
 </html>
