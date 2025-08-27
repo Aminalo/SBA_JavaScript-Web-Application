@@ -64,4 +64,32 @@ nextBtn.addEventListener("click", ()=>{ if(page<totalPages()){ page++; renderRes
 (function init(){
   ingInput.value = "vodka";
   form.dispatchEvent(new Event("submit"));
+  renderFavorites();
 })();
+
+import { postFavorite, deleteFavoriteRemote } from "./api.js";
+import { buildFavoriteCard } from "./ui.js";
+
+const favorites = document.getElementById("favorites");
+const clearFavsBtn = document.getElementById("clear-favs");
+
+let favs = loadFavs();
+function loadFavs(){ try{ return JSON.parse(localStorage.getItem("cocktail:favs")||"[]"); } catch{ return []; } }
+function saveFavs(){ localStorage.setItem("cocktail:favs", JSON.stringify(favs)); }
+
+function renderFavorites(){
+  const nodes = favs.map(f =>
+    buildFavoriteCard(document.getElementById("fav-tpl"), f, async (fav) => {
+      try { if (fav.remoteId) await deleteFavoriteRemote(fav.remoteId); } catch {}
+      finally {
+        favs = favs.filter(x => x.idDrink !== fav.idDrink);
+        saveFavs(); renderFavorites();
+      }
+    })
+  );
+  renderList(favorites, nodes);
+}
+clearFavsBtn.addEventListener("click", () => {
+  if (!confirm("Clear ALL favorites locally?")) return;
+  favs = []; saveFavs(); renderFavorites();
+});

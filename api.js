@@ -33,3 +33,4 @@ export async function deleteFavoriteRemote(remoteId) {
   await write.delete(`/posts/${remoteId}`);
   return true;
 }
+
